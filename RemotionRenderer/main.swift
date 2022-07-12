@@ -61,6 +61,7 @@ class WebViewCaptureDelegate : NSObject, WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         Task {
             await waitUntilWindowReady(webView)
+            print("webview ready")
             
             // Video Writer Configuration
             let movieURL = URL(fileURLWithPath: rendererSettings.outputFile)
@@ -145,7 +146,10 @@ let fileURL = URL(fileURLWithPath: rendererSettings.inputFile)
 var components = URLComponents(url: fileURL, resolvingAgainstBaseURL: false)!
 components.queryItems = [.init(name: "composition", value: rendererSettings.compositionName)]
 
+
+
 webView.load(URLRequest(url: components.url!))
+print(components.url!)
 webView.configuration.preferences.setValue(true, forKey: "allowFileAccessFromFileURLs")
 webView.pageZoom = 1 / window.backingScaleFactor
 
